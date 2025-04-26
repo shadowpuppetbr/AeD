@@ -1,45 +1,67 @@
-#include<stdio.h>
-#include<string.h>
-int main(){
+#include <stdio.h>
+#include <string.h>
+int main()
+{
 	int menu;
 	char lista[100];
-	while(menu !=4 ){
+	while (menu != 4)
+	{
 		printf("1 add nome \n2 remove nome \n3 lista \n4 sair\n");
 		scanf("%d", &menu);
-		
-		switch (menu){
-			case (1):{
-				char nome[100];
-				printf("digite o nome\n");
-				scanf("%s", nome);
-				strcat(lista, nome);
-				strcat(lista, "_");
-				break;
-				};
-			case (2):{
-				char nome[100];
-				
-				printf("digite o nome para remover\n");
-				scanf("%s", nome);
-				int j = strcmp(lista, &nome[0]);
-				for ( int i=0;  j != 0   ; i++ ){
-					j = strcmp(lista, &nome[i]);
-					if (j==1){
-							
-						}
-					}
-				
-				break;
-				}	
-			case (3):{
-				printf("%s", lista);
-				break;
+
+		switch (menu)
+		{
+		case (1):
+		{
+			char nome[100];
+			printf("digite o nome\n");
+			scanf("%s", nome);
+			if (lista[0] != NULL)
+				strcat(lista, " ");
+			strcat(lista, nome);
+			break;
+		};
+		case (2):
+		{
+			char nome[100];
+			int k, i, j;
+			printf("digite o nome para remover\n");
+			scanf("%s", nome);
+
+			for (i = 0; lista[i] != NULL; i = (k + 1))
+			{
+				j = 0;
+				k = i;
+				char temp[100];
+				while (lista[k] != ' ' && lista[k] != NULL)
+				{
+					temp[j] = lista[k];
+					j++;
+					k++;
 				}
-			case (4):{
-				printf("\n\t tchau!!!");
-				break;
+				temp[j] = '\0';
+				if (strcmp(temp, nome) == 0)
+				{
+					if(lista[k]==' ')
+						strcpy(&lista[i], &lista[k+1]);
+					else
+						strcpy(&lista[i], &lista[k]);
 				}
 			}
+
+			break;
+		}
+		case (3):
+		{
+			printf("%s\n", lista);
+			break;
+		}
+		case (4):
+		{
+			printf("\n\t tchau!!!\n");
+			break;
+		}
+		}
 	}
 	return 0;
 }
