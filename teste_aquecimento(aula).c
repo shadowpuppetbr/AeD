@@ -2,8 +2,8 @@
 #include <string.h>
 int main()
 {
-	int menu;
-	char lista[100];
+	int menu = 0;
+	char lista[100] = {'\0'};
 	while (menu != 4)
 	{
 		printf("1 add nome \n2 remove nome \n3 lista \n4 sair\n");
@@ -13,10 +13,10 @@ int main()
 		{
 		case (1):
 		{
-			char nome[100];
+			char nome[100] = {'\0'};
 			printf("digite o nome\n");
 			scanf("%s", nome);
-			if (lista[0] != NULL)
+			if (lista[0] != '\0')
 				strcat(lista, " ");
 			strcat(lista, nome);
 			break;
@@ -28,12 +28,12 @@ int main()
 			printf("digite o nome para remover\n");
 			scanf("%s", nome);
 
-			for (i = 0; lista[i] != NULL; i = (k + 1))
+			for (i = 0; lista[i] != '\0'; i = (k + 1))
 			{
 				j = 0;
 				k = i;
 				char temp[100];
-				while (lista[k] != ' ' && lista[k] != NULL)
+				while (lista[k] != ' ' && lista[k] != '\0')
 				{
 					temp[j] = lista[k];
 					j++;
@@ -42,8 +42,8 @@ int main()
 				temp[j] = '\0';
 				if (strcmp(temp, nome) == 0)
 				{
-					if(lista[k]==' ')
-						strcpy(&lista[i], &lista[k+1]);
+					if (lista[k] == ' ')
+						strcpy(&lista[i], &lista[k + 1]);
 					else
 						strcpy(&lista[i], &lista[k]);
 				}
