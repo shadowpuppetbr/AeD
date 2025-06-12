@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TAM_PESSOA (10 * sizeof(char) + sizeof(int) + 10 * sizeof(char))
+#define TAM_PESSOA 10 * sizeof(char) + sizeof(int) + 10 * sizeof(char)
+
 void menu(int *pBuffer);
 void adicionarPessoa(void *pBuffer);
 
@@ -12,8 +13,7 @@ int main() {
   // inicializa o buffer
   ((int *)pBuffer)[0] = 0;  // menu
   ((int *)pBuffer)[1] = 0;  // quantidade de pessoas na agenda
-
-  // LOOP principal
+  // --------------------------------LOOP principal
   while (*((int *)pBuffer) != 5) {
     printf(
         "1 - Adicionar Pessoa (Nome, Idade, Email)\n2 - Remover Pessoa\n"
@@ -24,19 +24,25 @@ int main() {
       BLOCO DE ADICIONAR PESSOAS
       ----------------------- */
       case (1): {
-        ((int *)pBuffer)[1] = ((int *)pBuffer)[1] + 1;
-        printf("quantidade de pessoas 1: %d \n", *((int *)pBuffer + 1));
-        printf("quantidade de pessoas 2: %d \n", ((int *)pBuffer)[1]);
+        // soma 1 no contador de pessoas da agenda
+        *((int *)pBuffer + 1) = *((int *)pBuffer + 1) + 1;
 
-        pBuffer = realloc(pBuffer,
-                          2 * sizeof(int) + TAM_PESSOA * ((int *)pBuffer)[1]);
+        // realoca o tamanho do buffer
+        pBuffer = realloc(
+            pBuffer, 2 * sizeof(int) + (TAM_PESSOA) * *((int *)pBuffer + 1));
+
+        void *pInicio = pBuffer + 2 * sizeof(int);
+        void *pNome = pInicio + ((*((int *)pBuffer + 1) - 1) * (TAM_PESSOA));
+        void *pIdade = (pNome + 10 * sizeof(char));
+        char *pEmail = (char *)pIdade + sizeof(int);
+
         printf("Digite o nome:");
-        scanf("%s", (char *)pBuffer + (2 * sizeof(int)));
+        scanf("%s", (char *)pNome);
         printf("Digite a idade:");
-        scanf("%d", (int *)pBuffer + (2 * sizeof(int)) + 10 * sizeof(char));
+        scanf("%d", (int *)pIdade);
         printf("Digite o e-mail:");
-        scanf("%s", (char *)pBuffer + (2 * sizeof(int)) + 10 * sizeof(char) +
-                        sizeof(int));
+        scanf("%s", (char *)pEmail);
+
         break;
       }
       /* -----------------
@@ -57,12 +63,18 @@ int main() {
       case (4): {
         printf("\n---------------\nQuantidade de pessoas adicionadas: %d\n",
                *((int *)pBuffer + 1));
-        for (void *p = ((int *)pBuffer + 2); p != NULL; p = p + TAM_PESSOA) {
-          printf("Nome: %s\n", (char *)p);
-          printf("Idade: %d\n", *(int *)(p + 10 * sizeof(char)));
-          printf("E-mail: %s\n\n",
-                 (char *)p + 10 * sizeof(char) + 2 * sizeof(int));
+        void *pInicio = pBuffer + 2 * sizeof(int);
+        void *pFim = pInicio + *((int *)pBuffer + 1) * (TAM_PESSOA);
+        for (; pInicio < pFim; pInicio = pInicio + (TAM_PESSOA)) {
+          void *pNome = pInicio;
+          void *pIdade = (pNome + 10 * sizeof(char));
+          char *pEmail = (char *)pIdade + sizeof(int);
+
+          printf("Nome: %s\n", (char *)pNome);
+          printf("Idade: %d\n", *(int *)pIdade);
+          printf("E-mail: %s\n\n", (char *)pEmail);
         }
+
         break;
       }
       /* -----------------
@@ -70,7 +82,6 @@ int main() {
       ----------------------- */
       case (5): {
         ((int *)pBuffer)[0] = 5;
-
         break;
       }
     }
