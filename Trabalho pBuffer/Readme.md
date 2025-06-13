@@ -1,4 +1,5 @@
 # Agenda
+> Gustavo dos Santos Leon
 
 Faça uma agenda com o seguinte menu:
 
@@ -42,3 +43,7 @@ Durante a conversa no **1:1**, pode ser solicitado para modificar o código ao v
 O objetivo é saber se entenderam o que fizeram.  
 
 **Dica:** Veja os vídeos dos monitores para dicas sobre o trabalho!
+
+# Sobre a execução do trabalho:
+
+Foi desafiador de inicio a maior dificuldade foi acertar na aritimética de ponteiros, porem quando essa questão foi resolvida o andamento seguiu sem grandes percalços
