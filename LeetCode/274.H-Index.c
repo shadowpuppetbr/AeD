@@ -1,34 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Função de comparação para qsort (ordem decrescente)
+int compare(const void *a, const void *b) {
+    return (*(int *)b - *(int *)a);
+}
+
 int hIndex(int* citations, int citationsSize) {
-    int h;
-    int persist= -1;
-   
-    if(citationsSize == 1){ 
-        if( citations[0] < 1){
-        return 0;
-    }
-        return 1;
-    }
-    for(int i=citationsSize; i>=1; i--){
-        int citation=0;
-        h = i;
-        
-        for( int j=0;j<citationsSize;j++){
-            if(citations[j] >= h ){
-                citation++;
-            }
+    // Ordena em ordem decrescente
+    qsort(citations, citationsSize, sizeof(int), compare);
+
+    int h = 0;
+    for (int i = 0; i < citationsSize; i++) {
+        if (citations[i] >= i + 1) {
+            h++;
+        } else {
+            break;
         }
-        if(citation == 0 && h == 1){
-            return 0;
-        }
-        if(citation == h){
-            return h;
-        }
-        if(citation > h && h > persist){
-            persist = h;
-        }
-    }
-    if( persist != -1){
-        return persist;
     }
     return h;
+}
+
+int main() {
+    int citations[] = {3, 0, 6, 1, 5};
+    int n = sizeof(citations) / sizeof(citations[0]);
+
+    int h = hIndex(citations, n);
+    printf("H-Index: %d\n", h);  // Saída esperada: 3
+
+    return 0;
 }
