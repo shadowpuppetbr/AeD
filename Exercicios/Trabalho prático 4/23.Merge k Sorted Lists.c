@@ -1,3 +1,4 @@
+#include<stdio.h>
 #include <stdlib.h>
 // Definition for singly-linked list.
 struct ListNode
@@ -5,6 +6,48 @@ struct ListNode
   int val;
   struct ListNode *next;
 };
+struct ListNode *mergeKLists(struct ListNode **lists, int c);
+
+int main(int argc, char const *argv[])
+{
+  struct ListNode *lista1 = malloc(sizeof(struct ListNode) * 3);
+  lista1[0].val = 1;
+  lista1[0].next = &lista1[1];
+  lista1[1].val = 4;
+  lista1[1].next = &lista1[2];
+  lista1[2].val = 5;
+  lista1[2].next = NULL;
+
+  struct ListNode *lista2 = malloc(sizeof(struct ListNode) * 3);
+  lista2[0].val = 1;
+  lista2[0].next = &lista2[1];
+  lista2[1].val = 3;
+  lista2[1].next = &lista2[2];
+  lista2[2].val = 4;
+  lista2[2].next = NULL;
+
+  struct ListNode *lista3 = malloc(sizeof(struct ListNode) * 2);
+  lista3[0].val = 2;
+  lista3[0].next = &lista3[1];
+  lista3[1].val = 6;
+  lista3[1].next = NULL;
+
+  struct ListNode **listas = malloc(sizeof(struct ListNode *) * 3);
+  listas[0] = lista1;
+  listas[1] = lista2;
+  listas[2] = lista3;
+
+  struct ListNode *head = mergeKLists(listas, 3);
+  while (head != NULL)
+  {
+    printf("%d ", head->val);
+    head = head->next;
+  }
+  printf("\n");
+  return 0;
+}
+
+
 
 struct ListNode *mergeKLists(struct ListNode **lists, int c)
 {
